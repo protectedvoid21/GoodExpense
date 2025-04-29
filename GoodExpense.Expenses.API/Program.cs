@@ -30,7 +30,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.MapScalarApiReference();
+    app.MapScalarApiReference(config =>
+    {
+        config.Title = "GE Expenses API";
+    });
 }
 
 app.UseSerilogRequestLogging();

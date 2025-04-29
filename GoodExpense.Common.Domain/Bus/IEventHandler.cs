@@ -4,8 +4,7 @@ namespace GoodExpense.Common.Domain.Bus;
 
 public interface IEventHandler<in TEvent> : IEventHandler where TEvent : Event
 {
-    Task Handle(TEvent @event);
-
+    Task Handle(TEvent eventArgs);
 }
 
-public interface IEventHandler { }
+public interface IEventHandler;

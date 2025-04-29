@@ -1,9 +1,10 @@
 using GoodExpense.Common.Application;
 using GoodExpense.Common.Domain.Bus;
 using GoodExpense.Notification.Application;
+using GoodExpense.Notification.Application.Handlers;
 using GoodExpense.Notification.Domain;
+using GoodExpense.Notification.Domain.Events;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Scalar.AspNetCore;
 using Serilog;
 
@@ -18,13 +19,20 @@ builder.Services.AddScoped<INotificationService, AzureEmailNotificationService>(
 builder.Services.Configure<AzureNotificationConfiguration>(builder.Configuration.GetSection("AzureNotification"));
 
 builder.Services.AddSingleton<IEventBus, RabbitMqBus>();
+builder.Services.AddScoped<NotifyEventHandler>();
 
 var app = builder.Build();
+
+var eventBus = app.Services.GetRequiredService<IEventBus>();
+await eventBus.Subscribe<NotifyEvent, NotifyEventHandler>();
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.MapScalarApiReference();
+    app.MapScalarApiReference(config =>
+    {
+        config.Title = "GE Notifications API";
+    });
 }
 
 app.UseHttpsRedirection();

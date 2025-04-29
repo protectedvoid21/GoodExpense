@@ -6,6 +6,7 @@ using GoodExpense.Common.Domain.Commands;
 using GoodExpense.Common.Domain.Events;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -16,17 +17,20 @@ public sealed class RabbitMqBus : IEventBus
     private readonly Dictionary<string, List<Type>> _handlers;
     private readonly List<Type> _eventTypes = [];
     private readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly ILogger<RabbitMqBus> _logger;
 
     private readonly Uri BrokerUri = new Uri("amqps://uqsyjkdr:wSualaOcENEha1pCwS3YVxMXJ2q34q5l@hog.rmq5.cloudamqp.com/uqsyjkdr");
 
-    public RabbitMqBus(IServiceScopeFactory serviceScopeFactory)
+    public RabbitMqBus(IServiceScopeFactory serviceScopeFactory, ILogger<RabbitMqBus> logger)
     {
         _handlers = new Dictionary<string, List<Type>>();
         _serviceScopeFactory = serviceScopeFactory;
+        _logger = logger;
     }
 
     public async Task Publish<TEvent>(TEvent publishEvent) where TEvent : Event
     {
+        _logger.LogInformation("Publishing event {EventName}", publishEvent.GetType().Name);
         var factory = new ConnectionFactory { Uri = BrokerUri };
         using (var connection = await factory.CreateConnectionAsync())
         using (var channel = await connection.CreateChannelAsync())
@@ -120,14 +124,15 @@ public sealed class RabbitMqBus : IEventBus
     {
         var eventName = eventArgs.RoutingKey;
         var message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
-
+        _logger.LogInformation("Received event {EventName}", eventName);
+        
         try
         {
             await ProcessEvent(eventName, message).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            // Logowanie błędu
+            _logger.LogError(ex, "Error processing event {EventName}", eventName);
         }
     }
 
@@ -145,6 +150,7 @@ public sealed class RabbitMqBus : IEventBus
 
             if (handler == null)
             {
+                _logger.LogCritical("Handler for event: {EventName} was not found!", eventName);
                 continue;
             }
 

@@ -38,7 +38,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.MapScalarApiReference();
+    app.MapScalarApiReference(config =>
+    {
+        config.Title = "GE Users API";
+    });
 }
 
 app.UseSerilogRequestLogging();

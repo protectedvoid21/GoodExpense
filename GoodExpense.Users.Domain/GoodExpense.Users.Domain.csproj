@@ -10,8 +10,4 @@
       <ProjectReference Include="..\GoodExpense.Common.Domain\GoodExpense.Common.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Responses\" />
-    </ItemGroup>
-
 </Project>

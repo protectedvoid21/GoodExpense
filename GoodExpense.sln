@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Common.Applicat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Expenses", "Expenses", "{7DD5DF25-128E-40B8-B111-F6AA05250A99}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notification", "Notification", "{3DC319E9-BD8C-4DF3-A7C3-D27886999DBA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{3DC319E9-BD8C-4DF3-A7C3-D27886999DBA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Expenses.Application", "GoodExpense.Expenses.Application\GoodExpense.Expenses.Application.csproj", "{55E0B658-D1C6-49EA-B2AB-C6EB215F0F1B}"
 EndProject
@@ -29,8 +29,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Users.API", "GoodExpense.Users.API\GoodExpense.Users.API.csproj", "{72CBD02E-CDB0-4739-AE60-85A0A6DB1C92}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Invoicing", "Invoicing", "{4A7F7B05-722E-4279-8782-1E74BDA0BF36}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payments", "Payments", "{D9090FA4-25F8-4A96-B892-5379DB02AA2F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Notification.API", "GoodExpense.Notification.API\GoodExpense.Notification.API.csproj", "{75DFFB8A-CDCE-4319-81EC-C0878AAE9460}"
 EndProject

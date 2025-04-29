@@ -7,7 +7,7 @@ public interface IEventBus
 {
     Task Publish<T>(T publishEvent) where T : Event;
 
-    Task Subscribe<T, TH>() where T : Event where TH : IEventHandler<T>;
+    Task Subscribe<TEvent, TEventHandler>() where TEvent : Event where TEventHandler : IEventHandler<TEvent>;
     
     Task<TResponse> SendRequest<TRequest, TResponse>(TRequest request) where TRequest : Request;
 }

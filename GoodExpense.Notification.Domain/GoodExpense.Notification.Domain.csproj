@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Events\" />
+      <ProjectReference Include="..\GoodExpense.Common.Domain\GoodExpense.Common.Domain.csproj" />
     </ItemGroup>
 
 </Project>
