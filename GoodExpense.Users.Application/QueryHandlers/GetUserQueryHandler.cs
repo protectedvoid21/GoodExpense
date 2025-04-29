@@ -22,7 +22,7 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, GetUserDto?>
             {
                 Id = u.Id,
                 Email = u.Email,
-                UserName = u.Username
+                UserName = u.Username,
             })
             .FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
     }

@@ -1,3 +1,4 @@
+using GoodExpense.Common.Domain;
 using GoodExpense.Users.Domain.Commands;
 using GoodExpense.Users.Domain.Dto;
 using GoodExpense.Users.Domain.Queries;
@@ -22,7 +23,9 @@ public class UsersController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetUser(int id)
     {
-        return Ok(_mediator.Send(new GetUserQuery(id)));
+        GetUserDto? result = await _mediator.Send(new GetUserQuery(id));
+        string? message = result == null ? "User not found" : null;
+        return Ok(new ApiResult<GetUserDto>(result, message));
     }
 
     [HttpPost("register")]

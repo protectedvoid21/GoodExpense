@@ -1,4 +1,5 @@
 using GoodExpense.Domain.Clients;
+using GoodExpense.Users.Domain.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoodExpense.API.Controllers;
@@ -19,5 +20,12 @@ public class GoodExpenseController : ControllerBase
     {
         var user = await _usersServiceClient.GetUserAsync(id);
         return Ok(user);
+    }
+    
+    [HttpPost("users/register")]
+    public async Task<IActionResult> Register([FromBody] RegisterUserDto registerDto)
+    {
+        var result = await _usersServiceClient.RegisterUserAsync(registerDto);
+        return Ok(result);
     }
 }

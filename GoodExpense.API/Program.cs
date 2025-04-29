@@ -1,5 +1,7 @@
 using GoodExpense.Common.Application;
 using GoodExpense.Common.Domain.Bus;
+using GoodExpense.Domain.Clients;
+using Refit;
 using Scalar.AspNetCore;
 using Serilog;
 
@@ -14,7 +16,10 @@ builder.Services.AddSerilog(logger =>
 
 builder.Services
     .AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly))
-    .AddScoped<IEventBus, RabbitMQBus>();
+    .AddSingleton<IEventBus, RabbitMQBus>();
+
+builder.Services.AddRefitClient<IUsersServiceClient>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(builder.Configuration["ExternalServicesUrls:Users"]!));
 
 var app = builder.Build();
 
@@ -31,6 +36,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGet("/", () => Results.Redirect("/scalar"));
+app.MapGet("/", () => Results.Redirect("/scalar")).ExcludeFromDescription();
 
 app.Run();
