@@ -1,10 +1,10 @@
 using GoodExpense.Common.Domain.Events;
 
-namespace GoodExpense.Expenses.Domain.Events;
+namespace GoodExpense.Invoicing.Domain.Events;
 
 public record CreateExpenseEvent : Event
 {
-    public required ExpenseInfo Expense { get; set; }
+    public required CreateInvoiceRequest Expense { get; set; }
 }
 
 public record ExpenseInfo

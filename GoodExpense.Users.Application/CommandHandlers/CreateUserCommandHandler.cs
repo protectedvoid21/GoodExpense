@@ -41,7 +41,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, (stri
         {
             Body = "Congratulations! You have been successfully registered! For more information, please visit our website.",
             Subject = "Good Expense - Registration Confirmation",
-            Recipient = request.Email,
+            Recipients = [request.Email],
         });
 
         return ("User created successfully!", true);

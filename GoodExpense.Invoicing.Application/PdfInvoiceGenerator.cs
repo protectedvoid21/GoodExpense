@@ -18,7 +18,64 @@ public class PdfInvoiceGenerator : IInvoiceGenerator
         _logger = logger;
     }
 
-    public async Task<string> GenerateExpenseReportAsync(CreateInvoiceRequest request)
+
+    public async Task<string?> GenerateInvoiceAsync(CreateInvoiceRequest request)
+    {
+        if (!Directory.Exists(_savePath))
+        {
+            Directory.CreateDirectory(_savePath);
+        }
+
+        string fileName = $"Expense_{request.Title}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+        string filePath = Path.Combine(_savePath, fileName);
+
+        using var writer = new PdfWriter(filePath);
+        using var pdf = new PdfDocument(writer);
+        using var document = new Document(pdf);
+        try
+        {
+            var titleFont = PdfFontFactory.CreateFont(iText.IO.Font.Constants.StandardFonts.HELVETICA_BOLD);
+            var headerFont = PdfFontFactory.CreateFont(iText.IO.Font.Constants.StandardFonts.HELVETICA_BOLD);
+            var normalFont = PdfFontFactory.CreateFont(iText.IO.Font.Constants.StandardFonts.HELVETICA);
+
+            document.Add(new Paragraph("Rachunek").SetFont(titleFont).SetFontSize(16));
+            document.Add(new Paragraph("Data wydania: " + DateTime.Now.ToShortDateString()).SetFont(normalFont)
+                .SetFontSize(10));
+            document.Add(new Paragraph($"Tytuł: {request.Title}").SetFont(normalFont).SetFontSize(10));
+            document.Add(new Paragraph($"Opis: {request.Description}").SetFont(normalFont).SetFontSize(10));
+
+            var table = new Table(2);
+            table.SetWidth(UnitValue.CreatePercentValue(100));
+
+            table.AddHeaderCell(new Cell().Add(new Paragraph("Osoba").SetFont(titleFont).SetFontSize(12)));
+            table.AddHeaderCell(new Cell().Add(new Paragraph("Kwota").SetFont(headerFont).SetFontSize(12)));
+
+            foreach (var user in request.ParticipantUsers)
+            {
+                table.AddCell(new Cell().Add(new Paragraph($"{user.UserName}").SetFont(normalFont).SetFontSize(10))
+                    .SetTextAlignment(TextAlignment.RIGHT));
+                table.AddCell(new Cell().Add(new Paragraph($"{user.Amount:C}").SetFont(normalFont).SetFontSize(10))
+                    .SetTextAlignment(TextAlignment.RIGHT));
+            }
+            document.Add(table);
+            decimal amountSum = request.ParticipantUsers.Sum(e => e.Amount);
+            document.Add(new Paragraph(" "));
+            document.Add(new Paragraph($"Suma wydatków: {amountSum:C}").SetFont(headerFont).SetFontSize(12));
+            document.Add(new Paragraph(" "));
+            document.Add(new Paragraph("Good Expense " + DateTime.Now.Year).SetFont(normalFont)
+                .SetFontSize(8)).SetTextAlignment(TextAlignment.CENTER);
+            
+            document.Close();
+            return Convert.ToBase64String(await File.ReadAllBytesAsync(filePath));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Could not generate PDF document: {ExMessage}", ex.Message);
+            return null;
+        }
+    }
+
+    public async Task<string?> GenerateExpenseRangeReportAsync(CreateRangeInvoiceRequest request)
     {
         if (!Directory.Exists(_savePath))
         {

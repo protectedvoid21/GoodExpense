@@ -4,7 +4,7 @@ namespace GoodExpense.Invoicing.Domain.Events;
 
 public record NotifyEvent : Event
 {
-    public required string Recipient { get; init; }
+    public required IEnumerable<string> Recipients { get; init; }
     public required string Subject { get; init; }
     public required string Body { get; init; }
     public IEnumerable<AddAttachmentRequest> Attachments { get; set; } = [];
@@ -14,5 +14,5 @@ public record AddAttachmentRequest
 {
     public required string FileName { get; set; }
     public required string ContentType { get; set; }
-    public required string ContentBase64 { get; set; }
+    public required string? ContentBase64 { get; set; }
 }

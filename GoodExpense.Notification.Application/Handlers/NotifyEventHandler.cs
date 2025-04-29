@@ -17,7 +17,7 @@ public class NotifyEventHandler : IEventHandler<NotifyEvent>
     {
         await _notificationService.SendNotificationAsync(new NotifyRequest
         {
-            Recipient = request.Recipient,
+            Recipients = request.Recipients,
             Subject = request.Subject,
             Body = request.Body,
             Attachments = request.Attachments

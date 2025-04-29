@@ -3,7 +3,6 @@ using GoodExpense.Common.Domain.Bus;
 using GoodExpense.Common.Domain.Extensions;
 using GoodExpense.Expenses.Application;
 using GoodExpense.Expenses.Application.Handlers;
-using GoodExpense.Expenses.Domain.Commands;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Serilog;

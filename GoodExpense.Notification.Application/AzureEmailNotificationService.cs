@@ -26,7 +26,9 @@ public class AzureEmailNotificationService : INotificationService
         {
             Html = request.Body,
         };
-        var message = new EmailMessage(_azureNotificationConfiguration.FromAddress, request.Recipient, content);
+        var recipients = new EmailRecipients(request.Recipients.Select(r => new EmailAddress(r)).ToList());
+        var message = new EmailMessage(_azureNotificationConfiguration.FromAddress, recipients, content);
+        
         foreach(var attachment in request.Attachments)
         {
             var emailAttachment = new EmailAttachment(
@@ -41,11 +43,11 @@ public class AzureEmailNotificationService : INotificationService
             var sendResult = await client.SendAsync(WaitUntil.Completed, message);
             if (sendResult.HasCompleted)
             {
-                _logger.LogInformation("Email sent successfully to {ToAddress}.", request.Recipient);
+                _logger.LogInformation("Email sent successfully to {ToAddress}.", request.Recipients);
             }
             else
             {
-                _logger.LogError("Email sending failed to : {Recipient}", request.Recipient);
+                _logger.LogError("Email sending failed to : {Recipient}", request.Recipients);
             }
         }
         catch (RequestFailedException ex)

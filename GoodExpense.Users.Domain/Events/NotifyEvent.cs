@@ -5,7 +5,7 @@ namespace GoodExpense.Users.Domain.Events;
 
 public record NotifyEvent : Event
 {
-    public required string Recipient { get; init; }
+    public required IEnumerable<string> Recipients { get; init; }
     public required string Subject { get; init; }
     public required string Body { get; init; }
 }

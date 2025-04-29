@@ -2,5 +2,7 @@ namespace GoodExpense.Invoicing.Domain;
 
 public interface IInvoiceGenerator
 {
-    Task<string> GenerateExpenseReportAsync(CreateInvoiceRequest request);
+    Task<string?> GenerateInvoiceAsync(CreateInvoiceRequest request);
+    
+    Task<string?> GenerateExpenseRangeReportAsync(CreateRangeInvoiceRequest request);
 }

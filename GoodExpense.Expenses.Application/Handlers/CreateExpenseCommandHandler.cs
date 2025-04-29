@@ -5,6 +5,7 @@ using GoodExpense.Expenses.Domain.Commands;
 using GoodExpense.Expenses.Domain.Events;
 using GoodExpense.Expenses.Domain.Models;
 using MediatR;
+using ExpenseParticipant = GoodExpense.Expenses.Domain.Commands.ExpenseParticipant;
 
 namespace GoodExpense.Expenses.Application.Handlers;
 
@@ -84,18 +85,32 @@ public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand,
             participant => participant.UserId, (getUserDto, expParticipant)  => new
             {
                 UserId = getUserDto.Id,
+                UserName = getUserDto.UserName,
                 Email = getUserDto.Email,
                 Amount = expParticipant.Amount,
             }).ToList();
         
-        foreach(var participant in userParticipants)
+        await _eventBus.Publish(new NotifyEvent
         {
-            await _eventBus.Publish(new NotifyEvent
+            Body = $"You have been added to an expense: {expense.Title}",
+            Recipients = userParticipants.Select(u => u.Email),
+            Subject = "You have been added to an expense",
+        });
+
+        await _eventBus.Publish(new CreateExpenseEvent
+        {
+            Expense = new ExpenseInfo
             {
-                Body = $"You have been added to an expense: {expense.Title}",
-                Recipient = participant.Email,
-                Subject = "You have been added to an expense",
-            });
-        }
+                Title = expense.Title,
+                Description = expense.Description,
+                CreatedDate = expense.CreatedAt,
+                ParticipantUsers = userParticipants.Select(u => new Domain.Events.ExpenseParticipant
+                {
+                    UserName = u.UserName,
+                    Email = u.Email,
+                    Amount = u.Amount,
+                }),
+            },
+        });
     }
 }

@@ -18,12 +18,15 @@ builder.Services.AddSerilog(logger =>
 builder.Services.AddSingleton<IEventBus, RabbitMqBus>();
 builder.Services.AddScoped<IInvoiceGenerator, PdfInvoiceGenerator>();
 
-builder.Services.AddScoped<GenerateInvoiceHandler>();
+builder.Services
+    .AddScoped<GenerateRangeInvoiceHandler>()
+    .AddScoped<GenerateInvoiceEventHandler>();
 
 var app = builder.Build();
 
 var eventBus = app.Services.GetRequiredService<IEventBus>();
-await eventBus.Subscribe<GenerateInvoiceEvent, GenerateInvoiceHandler>();
+await eventBus.Subscribe<GenerateRangeInvoiceEvent, GenerateRangeInvoiceHandler>();
+await eventBus.Subscribe<CreateExpenseEvent, GenerateInvoiceEventHandler>();
 
 if (app.Environment.IsDevelopment())
 {
@@ -35,12 +38,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapPost("/invoicing/", async (
-    [FromServices] GenerateInvoiceHandler invoiceHandler, 
-    [FromBody] CreateInvoiceRequest request) =>
+    [FromServices] GenerateRangeInvoiceHandler rangeInvoiceHandler, 
+    [FromBody] CreateRangeInvoiceRequest request) =>
 {
-    await invoiceHandler.Handle(new GenerateInvoiceEvent
+    await rangeInvoiceHandler.Handle(new GenerateRangeInvoiceEvent
     {
-        CreateInvoiceRequest = request,
+        CreateRangeInvoiceRequest = request,
     });
 }).WithSummary("Generate invoice");
 
