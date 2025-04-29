@@ -31,12 +31,17 @@ public class UsersController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterUserDto registerDto)
     {
-        bool result = await _mediator.Send(new CreateUserCommand
+        (string Message, bool IsSuccess) result = await _mediator.Send(new CreateUserCommand
         {
             UserName = registerDto.UserName,
             Email = registerDto.Email,
             Password = registerDto.Password,
         });
-        return Ok(result);
+        
+        return Ok(new ApiResult<bool>
+        {
+            Data = result.IsSuccess,
+            Message = result.Message,
+        });
     }
 }

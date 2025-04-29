@@ -43,6 +43,7 @@ if (app.Environment.IsDevelopment())
         config.Title = "GE Users API";
     });
 }
+app.MapGet("/", () => Results.Redirect("/scalar")).ExcludeFromDescription();
 
 app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();

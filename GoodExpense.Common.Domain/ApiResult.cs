@@ -1,11 +1,11 @@
 namespace GoodExpense.Common.Domain;
 
-public record ApiResponse
+public record ApiResult
 {
     public string? Message { get; set; }
 }
 
-public record ApiResult<T> : ApiResponse
+public record ApiResult<T> : ApiResult
 {
     public T? Data { get; set; }
     

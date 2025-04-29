@@ -20,6 +20,7 @@ public class ExpenseController : ControllerBase
     }
     
     [HttpGet]
+    [ProducesResponseType<GetExpenseDto>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetExpense(int id)
     {
         var expense = await _mediator.Send(new GetExpenseQuery { Id = id });
@@ -27,6 +28,7 @@ public class ExpenseController : ControllerBase
     }
     
     [HttpPost]
+    [ProducesResponseType<bool>(StatusCodes.Status200OK)]
     public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseDto createExpenseDto)
     {
         var result = await _mediator.Send(new CreateExpenseCommand

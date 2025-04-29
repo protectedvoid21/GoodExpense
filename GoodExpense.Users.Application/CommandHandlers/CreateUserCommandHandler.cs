@@ -4,10 +4,11 @@ using GoodExpense.Users.Domain.Commands;
 using GoodExpense.Users.Domain.Events;
 using GoodExpense.Users.Domain.Services;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace GoodExpense.Users.Application.CommandHandlers;
 
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, bool>
+public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, (string Message, bool IsSuccess)>
 {
     private readonly UsersDbContext _dbContext;
     private readonly IPasswordEncrypter _passwordEncrypter;
@@ -20,8 +21,13 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, bool>
         _eventBus = eventBus;
     }
 
-    public async Task<bool> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<(string Message, bool IsSuccess)> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
+        if (await _dbContext.Users.AnyAsync(u => u.Username == request.UserName || u.Email == request.Email, cancellationToken))
+        {
+            return ("User already exists!", false);
+        }
+        
         var user = new User
         {
             Username = request.UserName,
@@ -38,6 +44,6 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, bool>
             Recipient = request.Email,
         });
 
-        return true;
+        return ("User created successfully!", true);
     }
 }
