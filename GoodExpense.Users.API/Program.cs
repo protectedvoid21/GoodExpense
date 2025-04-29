@@ -17,7 +17,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddSerilog(logger => { logger.ReadFrom.Configuration(builder.Configuration); });
 builder.Services
     .AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(typeof(CreateUserCommandHandler).Assembly); })
-    .AddSingleton<IEventBus, RabbitMQBus>();
+    .AddSingleton<IEventBus, RabbitMqBus>();
 
 builder.Services.AddScoped<IPasswordEncrypter, PasswordSHA256Encrypter>();
 

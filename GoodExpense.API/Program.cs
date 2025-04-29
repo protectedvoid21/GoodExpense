@@ -16,7 +16,7 @@ builder.Services.AddSerilog(logger =>
 
 builder.Services
     .AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly))
-    .AddSingleton<IEventBus, RabbitMQBus>();
+    .AddSingleton<IEventBus, RabbitMqBus>();
 
 builder.Services.AddRefitClient<IUsersServiceClient>()
     .ConfigureHttpClient(c => c.BaseAddress = new Uri(builder.Configuration["ExternalServicesUrls:Users"]!));

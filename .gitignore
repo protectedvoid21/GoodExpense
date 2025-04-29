@@ -8,3 +8,4 @@ riderModule.iml
 .vscode/
 GoodExpense.Expenses.API/Logs/
 GoodExpense.Users.API/Logs/
+GoodExpense.Notification.API/Logs/

@@ -11,25 +11,18 @@ using RabbitMQ.Client.Events;
 
 namespace GoodExpense.Common.Application;
 
-public sealed class RabbitMQBus : IEventBus
+public sealed class RabbitMqBus : IEventBus
 {
-    private readonly IMediator _mediator;
     private readonly Dictionary<string, List<Type>> _handlers;
     private readonly List<Type> _eventTypes = [];
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
     private readonly Uri BrokerUri = new Uri("amqps://uqsyjkdr:wSualaOcENEha1pCwS3YVxMXJ2q34q5l@hog.rmq5.cloudamqp.com/uqsyjkdr");
 
-    public RabbitMQBus(IMediator mediator, IServiceScopeFactory serviceScopeFactory)
+    public RabbitMqBus(IServiceScopeFactory serviceScopeFactory)
     {
-        _mediator = mediator;
         _handlers = new Dictionary<string, List<Type>>();
         _serviceScopeFactory = serviceScopeFactory;
-    }
-
-    public Task SendCommand<TCommand>(TCommand command) where TCommand : Command
-    {
-        return _mediator.Send(command);
     }
 
     public async Task Publish<TEvent>(TEvent publishEvent) where TEvent : Event

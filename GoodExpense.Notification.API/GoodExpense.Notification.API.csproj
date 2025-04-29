@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4"/>
+        <PackageReference Include="Scalar.AspNetCore" Version="2.2.1" />
+        <PackageReference Include="Serilog" Version="4.2.0" />
+        <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\GoodExpense.Common.Application\GoodExpense.Common.Application.csproj" />
+      <ProjectReference Include="..\GoodExpense.Common.Domain\GoodExpense.Common.Domain.csproj" />
+      <ProjectReference Include="..\GoodExpense.Notification.Application\GoodExpense.Notification.Application.csproj" />
+      <ProjectReference Include="..\GoodExpense.Notification.Domain\GoodExpense.Notification.Domain.csproj" />
+    </ItemGroup>
+
+</Project>
