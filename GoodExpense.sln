@@ -4,21 +4,33 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.API", "GoodExpe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{400037A8-380F-4D26-A14D-52431955B7A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Domain", "GoodExpense.Domain\GoodExpense.Domain.csproj", "{80BBB614-DBE2-40F7-AD44-A51518726687}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Common.Domain", "GoodExpense.Common.Domain\GoodExpense.Common.Domain.csproj", "{80BBB614-DBE2-40F7-AD44-A51518726687}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Application", "GoodExpense.Application\GoodExpense.Application.csproj", "{C876ABD5-D3A4-490C-A90C-84819FEFD6AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Common.Application", "GoodExpense.Common.Application\GoodExpense.Common.Application.csproj", "{C876ABD5-D3A4-490C-A90C-84819FEFD6AA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Expense", "Expense", "{7DD5DF25-128E-40B8-B111-F6AA05250A99}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Group", "Group", "{F3281A49-72EE-46F6-8E59-2C2A207FC7A0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Expenses", "Expenses", "{7DD5DF25-128E-40B8-B111-F6AA05250A99}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notification", "Notification", "{3DC319E9-BD8C-4DF3-A7C3-D27886999DBA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Printing", "Printing", "{AE03A514-3570-4331-B034-9FB20F2A4C07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Expenses.Application", "GoodExpense.Expenses.Application\GoodExpense.Expenses.Application.csproj", "{55E0B658-D1C6-49EA-B2AB-C6EB215F0F1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Expense.Application", "GoodExpense.Expense.Application\GoodExpense.Expense.Application.csproj", "{55E0B658-D1C6-49EA-B2AB-C6EB215F0F1B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Expenses.Domain", "GoodExpense.Expenses.Domain\GoodExpense.Expenses.Domain.csproj", "{F0B2F0E3-DA31-49C6-BAFA-4DD2EE2EE27D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Expense.Domain", "GoodExpense.Expense.Domain\GoodExpense.Expense.Domain.csproj", "{F0B2F0E3-DA31-49C6-BAFA-4DD2EE2EE27D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{7DE11CE6-E69C-428F-B887-217865BDCD9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Users.Application", "GoodExpense.Users.Application\GoodExpense.Users.Application.csproj", "{FF27B471-6B85-469B-B533-28235D435C05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Users.Domain", "GoodExpense.Users.Domain\GoodExpense.Users.Domain.csproj", "{C213BCA3-F3CE-4445-9226-090910B66362}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Expenses.API", "GoodExpense.Expenses.API\GoodExpense.Expenses.API.csproj", "{7CE35122-4AD1-49BF-A32E-75CAD273E76E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Domain", "GoodExpense.Domain\GoodExpense.Domain.csproj", "{9FE575F0-C564-40B8-A93F-B06E8D872DF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodExpense.Users.API", "GoodExpense.Users.API\GoodExpense.Users.API.csproj", "{72CBD02E-CDB0-4739-AE60-85A0A6DB1C92}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Invoicing", "Invoicing", "{4A7F7B05-722E-4279-8782-1E74BDA0BF36}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payments", "Payments", "{D9090FA4-25F8-4A96-B892-5379DB02AA2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,11 +58,35 @@ Global
 		{F0B2F0E3-DA31-49C6-BAFA-4DD2EE2EE27D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0B2F0E3-DA31-49C6-BAFA-4DD2EE2EE27D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0B2F0E3-DA31-49C6-BAFA-4DD2EE2EE27D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF27B471-6B85-469B-B533-28235D435C05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF27B471-6B85-469B-B533-28235D435C05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF27B471-6B85-469B-B533-28235D435C05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF27B471-6B85-469B-B533-28235D435C05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C213BCA3-F3CE-4445-9226-090910B66362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C213BCA3-F3CE-4445-9226-090910B66362}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C213BCA3-F3CE-4445-9226-090910B66362}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C213BCA3-F3CE-4445-9226-090910B66362}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CE35122-4AD1-49BF-A32E-75CAD273E76E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CE35122-4AD1-49BF-A32E-75CAD273E76E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CE35122-4AD1-49BF-A32E-75CAD273E76E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CE35122-4AD1-49BF-A32E-75CAD273E76E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FE575F0-C564-40B8-A93F-B06E8D872DF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FE575F0-C564-40B8-A93F-B06E8D872DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FE575F0-C564-40B8-A93F-B06E8D872DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FE575F0-C564-40B8-A93F-B06E8D872DF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72CBD02E-CDB0-4739-AE60-85A0A6DB1C92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72CBD02E-CDB0-4739-AE60-85A0A6DB1C92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72CBD02E-CDB0-4739-AE60-85A0A6DB1C92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72CBD02E-CDB0-4739-AE60-85A0A6DB1C92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{80BBB614-DBE2-40F7-AD44-A51518726687} = {400037A8-380F-4D26-A14D-52431955B7A0}
 		{C876ABD5-D3A4-490C-A90C-84819FEFD6AA} = {400037A8-380F-4D26-A14D-52431955B7A0}
 		{55E0B658-D1C6-49EA-B2AB-C6EB215F0F1B} = {7DD5DF25-128E-40B8-B111-F6AA05250A99}
 		{F0B2F0E3-DA31-49C6-BAFA-4DD2EE2EE27D} = {7DD5DF25-128E-40B8-B111-F6AA05250A99}
+		{FF27B471-6B85-469B-B533-28235D435C05} = {7DE11CE6-E69C-428F-B887-217865BDCD9F}
+		{C213BCA3-F3CE-4445-9226-090910B66362} = {7DE11CE6-E69C-428F-B887-217865BDCD9F}
+		{7CE35122-4AD1-49BF-A32E-75CAD273E76E} = {7DD5DF25-128E-40B8-B111-F6AA05250A99}
+		{72CBD02E-CDB0-4739-AE60-85A0A6DB1C92} = {7DE11CE6-E69C-428F-B887-217865BDCD9F}
 	EndGlobalSection
 EndGlobal

@@ -8,7 +8,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\GoodExpense.Common.Domain\GoodExpense.Common.Domain.csproj" />
-      <ProjectReference Include="..\GoodExpense.Users.Domain\GoodExpense.Users.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.EntityFrameworkCore.Abstractions">
+        <HintPath>..\..\..\..\..\.nuget\packages\microsoft.entityframeworkcore.abstractions\9.0.4\lib\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

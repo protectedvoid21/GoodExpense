@@ -7,8 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\GoodExpense.Common.Domain\GoodExpense.Common.Domain.csproj" />
-      <ProjectReference Include="..\GoodExpense.Users.Domain\GoodExpense.Users.Domain.csproj" />
+      <PackageReference Include="MediatR" Version="12.5.0" />
+      <PackageReference Include="Refit" Version="8.0.0" />
+      <PackageReference Include="Refit.HttpClientFactory" Version="8.0.0" />
     </ItemGroup>
 
 </Project>

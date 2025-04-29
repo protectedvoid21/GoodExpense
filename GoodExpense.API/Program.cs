@@ -1,3 +1,5 @@
+using GoodExpense.Common.Application;
+using GoodExpense.Common.Domain.Bus;
 using Scalar.AspNetCore;
 using Serilog;
 
@@ -9,6 +11,10 @@ builder.Services.AddSerilog(logger =>
 {
     logger.ReadFrom.Configuration(builder.Configuration);
 });
+
+builder.Services
+    .AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly))
+    .AddScoped<IEventBus, RabbitMQBus>();
 
 var app = builder.Build();
 
@@ -24,5 +30,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGet("/", () => Results.Redirect("/scalar"));
 
 app.Run();
