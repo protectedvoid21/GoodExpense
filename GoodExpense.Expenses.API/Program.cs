@@ -1,3 +1,5 @@
+using GoodExpense.Common.Application;
+using GoodExpense.Common.Domain.Bus;
 using GoodExpense.Common.Domain.Extensions;
 using GoodExpense.Expenses.Application;
 using GoodExpense.Expenses.Application.Handlers;
@@ -24,6 +26,7 @@ builder.Services.AddNpgsql<ExpenseDbContext>(
 builder.Services.AddGoodExpenseClient();
 
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(CreateExpenseCommandHandler).Assembly));
+builder.Services.AddSingleton<IEventBus, RabbitMqBus>();
 
 var app = builder.Build();
 

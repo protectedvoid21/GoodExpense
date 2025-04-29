@@ -5,4 +5,5 @@ public record NotifyRequest
     public required string Recipient { get; set; }
     public required string Subject { get; set; }
     public required string Body { get; set; }
+    public IEnumerable<AddAttachmentRequest> Attachments { get; set; } = [];
 }

@@ -20,6 +20,7 @@ public class NotifyEventHandler : IEventHandler<NotifyEvent>
             Recipient = request.Recipient,
             Subject = request.Subject,
             Body = request.Body,
+            Attachments = request.Attachments
         });
     }
 }

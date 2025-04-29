@@ -27,6 +27,14 @@ public class AzureEmailNotificationService : INotificationService
             Html = request.Body,
         };
         var message = new EmailMessage(_azureNotificationConfiguration.FromAddress, request.Recipient, content);
+        foreach(var attachment in request.Attachments)
+        {
+            var emailAttachment = new EmailAttachment(
+                attachment.FileName,
+                attachment.ContentType,
+                BinaryData.FromBytes(Convert.FromBase64String(attachment.ContentBase64)));
+            message.Attachments.Add(emailAttachment);
+        }
 
         try
         {

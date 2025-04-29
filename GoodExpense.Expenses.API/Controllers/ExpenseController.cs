@@ -1,3 +1,4 @@
+using GoodExpense.Common.Domain;
 using GoodExpense.Expenses.Domain.Commands;
 using GoodExpense.Expenses.Domain.Dto;
 using GoodExpense.Expenses.Domain.Queries;
@@ -23,25 +24,38 @@ public class ExpenseController : ControllerBase
     [ProducesResponseType<GetExpenseDto>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetExpense(int id)
     {
-        var expense = await _mediator.Send(new GetExpenseQuery { Id = id });
+        GetExpenseDto? expense = await _mediator.Send(new GetExpenseQuery { Id = id });
         return Ok(expense);
     }
     
     [HttpPost]
-    [ProducesResponseType<bool>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ApiResult>(StatusCodes.Status200OK)]
     public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseDto createExpenseDto)
     {
-        var result = await _mediator.Send(new CreateExpenseCommand
+        try
         {
-            Description = createExpenseDto.Description,
-            Title = createExpenseDto.Title,
-            AuthorId = createExpenseDto.AuthorId,
-            Participants = createExpenseDto.Participants.Select(p => new ExpenseParticipant
+            bool isExpenseCreatedSuccessfully = await _mediator.Send(new CreateExpenseCommand
             {
-                UserId = p.UserId,
-                Amount = p.Amount,
-            }),
-        });
-        return Ok(result);
+                Description = createExpenseDto.Description,
+                Title = createExpenseDto.Title,
+                AuthorId = createExpenseDto.AuthorId,
+                Participants = createExpenseDto.Participants.Select(p => new ExpenseParticipant
+                {
+                    UserId = p.UserId,
+                    Amount = p.Amount,
+                }),
+            });
+            return Ok(new ApiResult<bool>(isExpenseCreatedSuccessfully));
+        }
+        catch (ArgumentException ex)
+        {
+            _logger.LogError("Validation failed for expense creation. Message: {Message}", ex.Message);
+            return BadRequest(new ApiResult { Message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Unhandled exception during expense creation. Message: {Message}", ex.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, new ApiResult { Message = "An error occurred while creating the expense." });
+        }
     }
 }

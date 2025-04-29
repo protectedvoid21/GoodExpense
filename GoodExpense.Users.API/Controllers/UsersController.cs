@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GoodExpense.Users.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("users")]
 public class UsersController : ControllerBase
 {
     private readonly ILogger<UsersController> _logger;
@@ -21,14 +21,19 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
+    [EndpointSummary("Get user")]
+    [ProducesResponseType<ApiResult<GetUserDto>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetUser(int id)
     {
         GetUserDto? result = await _mediator.Send(new GetUserQuery(id));
         string? message = result == null ? "User not found" : null;
+        
         return Ok(new ApiResult<GetUserDto>(result, message));
     }
 
     [HttpPost("register")]
+    [EndpointSummary("Register user")]
+    [ProducesResponseType<ApiResult<bool>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> Register([FromBody] RegisterUserDto registerDto)
     {
         (string Message, bool IsSuccess) result = await _mediator.Send(new CreateUserCommand

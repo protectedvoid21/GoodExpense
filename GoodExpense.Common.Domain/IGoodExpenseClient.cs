@@ -6,5 +6,5 @@ namespace GoodExpense.Common.Domain;
 public interface IGoodExpenseClient
 {
     [Get("/users/{id}")]
-    Task<GetUserDto> GetUserAsync(int id);
+    Task<ApiResult<GetUserDto?>> GetUserAsync(int id);
 }

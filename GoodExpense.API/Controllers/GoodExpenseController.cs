@@ -2,6 +2,7 @@ using GoodExpense.Common.Domain;
 using GoodExpense.Common.Domain.Dto;
 using GoodExpense.Domain.Clients;
 using Microsoft.AspNetCore.Mvc;
+using Refit;
 using RegisterUserDto = GoodExpense.Common.Domain.Dto.RegisterUserDto;
 
 namespace GoodExpense.API.Controllers;
@@ -22,6 +23,7 @@ public class GoodExpenseController : ControllerBase
     }
 
     [HttpGet("users/{id}")]
+    [EndpointSummary("Get user")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetUser([FromRoute] int id)
     {
@@ -30,6 +32,7 @@ public class GoodExpenseController : ControllerBase
     }
     
     [HttpPost("users/register")]
+    [EndpointSummary("Register user")]
     [ProducesResponseType<ApiResult<bool>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> Register([FromBody] RegisterUserDto registerDto)
     {
@@ -38,10 +41,28 @@ public class GoodExpenseController : ControllerBase
     }
     
     [HttpGet("expenses/{id}")]
+    [EndpointSummary("Get expense")]
     [ProducesResponseType<GetExpenseDto>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetExpense([FromRoute] int id)
     {
         var expense = await _usersServiceClient.GetUserAsync(id);
         return Ok(expense);
+    }
+    
+    [HttpPost("expenses")]
+    [EndpointSummary("Create expense")]
+    [ProducesResponseType<ApiResult<bool>>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseDto createExpenseDto)
+    {
+        try
+        {
+            ApiResult<bool> result = await _expensesServiceClient.CreateExpenseAsync(createExpenseDto);
+            return Ok(result);
+        }
+        catch (ApiException ex)
+        {
+            return BadRequest(ex.Content);
+        }
     }
 }

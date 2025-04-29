@@ -26,6 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\GoodExpense.Common.Application\GoodExpense.Common.Application.csproj" />
       <ProjectReference Include="..\GoodExpense.Expenses.Application\GoodExpense.Expenses.Application.csproj" />
       <ProjectReference Include="..\GoodExpense.Expenses.Domain\GoodExpense.Expenses.Domain.csproj" />
     </ItemGroup>

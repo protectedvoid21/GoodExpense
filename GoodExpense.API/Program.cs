@@ -21,6 +21,9 @@ builder.Services
 builder.Services.AddRefitClient<IUsersServiceClient>()
     .ConfigureHttpClient(c => c.BaseAddress = new Uri(builder.Configuration["ExternalServicesUrls:Users"]!));
 
+builder.Services.AddRefitClient<IExpensesServiceClient>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(builder.Configuration["ExternalServicesUrls:Expenses"]!));
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -28,7 +31,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference(config =>
     {
-        config.Title = "Good Expense API";
+        config.Title = "GE Main API";
     });
 }
 
