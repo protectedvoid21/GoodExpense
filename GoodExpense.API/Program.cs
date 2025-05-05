@@ -1,6 +1,7 @@
 using GoodExpense.Common.Application;
 using GoodExpense.Common.Domain.Bus;
 using GoodExpense.Domain.Clients;
+using Microsoft.OpenApi.Models;
 using Refit;
 using Scalar.AspNetCore;
 using Serilog;
@@ -18,6 +19,8 @@ builder.Services
     .AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly))
     .AddSingleton<IEventBus, RabbitMqBus>();
 
+builder.Services.Configure<EventBusConfiguration>(builder.Configuration.GetSection("EventBus"));
+
 builder.Services.AddRefitClient<IUsersServiceClient>()
     .ConfigureHttpClient(c => c.BaseAddress = new Uri(builder.Configuration["ExternalServicesUrls:Users"]!));
 
@@ -26,14 +29,12 @@ builder.Services.AddRefitClient<IExpensesServiceClient>()
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+app.MapOpenApi();
+app.MapScalarApiReference(config =>
 {
-    app.MapOpenApi();
-    app.MapScalarApiReference(config =>
-    {
-        config.Title = "GE Main API";
-    });
-}
+    config.Title = "GE Main API";
+    config.Servers = [];
+});
 
 app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();

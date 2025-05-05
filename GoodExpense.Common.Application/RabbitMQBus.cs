@@ -2,11 +2,10 @@
 using System.Text.Json;
 using GoodExpense.Common.Domain;
 using GoodExpense.Common.Domain.Bus;
-using GoodExpense.Common.Domain.Commands;
 using GoodExpense.Common.Domain.Events;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -19,19 +18,20 @@ public sealed class RabbitMqBus : IEventBus
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ILogger<RabbitMqBus> _logger;
 
-    private readonly Uri BrokerUri = new Uri("amqps://uqsyjkdr:wSualaOcENEha1pCwS3YVxMXJ2q34q5l@hog.rmq5.cloudamqp.com/uqsyjkdr");
+    private readonly Uri _brokerUri;
 
-    public RabbitMqBus(IServiceScopeFactory serviceScopeFactory, ILogger<RabbitMqBus> logger)
+    public RabbitMqBus(IServiceScopeFactory serviceScopeFactory, ILogger<RabbitMqBus> logger, IOptions<EventBusConfiguration> eventBusOptions)
     {
         _handlers = new Dictionary<string, List<Type>>();
         _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
+        _brokerUri = new Uri(eventBusOptions.Value.BrokerUri);
     }
 
     public async Task Publish<TEvent>(TEvent publishEvent) where TEvent : Event
     {
         _logger.LogInformation("Publishing event {EventName}", publishEvent.GetType().Name);
-        var factory = new ConnectionFactory { Uri = BrokerUri };
+        var factory = new ConnectionFactory { Uri = _brokerUri };
         using (var connection = await factory.CreateConnectionAsync())
         using (var channel = await connection.CreateChannelAsync())
         {
@@ -74,7 +74,7 @@ public sealed class RabbitMqBus : IEventBus
 
     public async Task<TResponse> SendRequest<TRequest, TResponse>(TRequest request) where TRequest : Request
     {
-        var factory = new ConnectionFactory { Uri = BrokerUri };
+        var factory = new ConnectionFactory { Uri = _brokerUri };
         var connection = await factory.CreateConnectionAsync();
         var channel = await connection.CreateChannelAsync();
         
@@ -107,7 +107,7 @@ public sealed class RabbitMqBus : IEventBus
 
     private async Task StartBasicConsumeAsync<T>() where T : Event
     {
-        var factory = new ConnectionFactory { Uri = BrokerUri };
+        var factory = new ConnectionFactory { Uri = _brokerUri };
         var connection = await factory.CreateConnectionAsync();
         var channel = await connection.CreateChannelAsync();
 

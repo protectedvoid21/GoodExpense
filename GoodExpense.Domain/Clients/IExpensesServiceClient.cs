@@ -6,7 +6,7 @@ namespace GoodExpense.Domain.Clients;
 
 public interface IExpensesServiceClient
 {
-    [Get("/expenses/{id}")]
+    [Get("/expense/{id}")]
     Task<GetExpenseDto> GetExpenseAsync(int id);
 
     [Post("/expense")]

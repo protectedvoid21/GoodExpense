@@ -20,7 +20,7 @@ public class ExpenseController : ControllerBase
         _mediator = mediator;
     }
     
-    [HttpGet]
+    [HttpGet("{id}")]
     [ProducesResponseType<GetExpenseDto>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetExpense(int id)
     {

@@ -45,7 +45,7 @@ public class GoodExpenseController : ControllerBase
     [ProducesResponseType<GetExpenseDto>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetExpense([FromRoute] int id)
     {
-        var expense = await _usersServiceClient.GetUserAsync(id);
+        var expense = await _expensesServiceClient.GetExpenseAsync(id);
         return Ok(expense);
     }
     

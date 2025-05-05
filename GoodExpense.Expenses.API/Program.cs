@@ -22,7 +22,8 @@ builder.Services.AddNpgsql<ExpenseDbContext>(
     }
 );
 
-builder.Services.AddGoodExpenseClient();
+builder.Services.Configure<EventBusConfiguration>(builder.Configuration.GetSection("EventBus"));
+builder.Services.AddGoodExpenseClient(builder.Configuration);
 
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(CreateExpenseCommandHandler).Assembly));
 builder.Services.AddSingleton<IEventBus, RabbitMqBus>();

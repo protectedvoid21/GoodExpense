@@ -30,7 +30,8 @@ builder.Services.AddNpgsql<UsersDbContext>(
     }
 );
 
-builder.Services.AddGoodExpenseClient();
+builder.Services.Configure<EventBusConfiguration>(builder.Configuration.GetSection("EventBus"));
+builder.Services.AddGoodExpenseClient(builder.Configuration);
 
 var app = builder.Build();
 

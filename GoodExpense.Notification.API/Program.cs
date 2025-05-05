@@ -17,6 +17,7 @@ builder.Services.AddSerilog(logger =>
 });
 builder.Services.AddScoped<INotificationService, AzureEmailNotificationService>();
 builder.Services.Configure<AzureNotificationConfiguration>(builder.Configuration.GetSection("AzureNotification"));
+builder.Services.Configure<EventBusConfiguration>(builder.Configuration.GetSection("EventBus"));
 
 builder.Services.AddSingleton<IEventBus, RabbitMqBus>();
 builder.Services.AddScoped<NotifyEventHandler>();

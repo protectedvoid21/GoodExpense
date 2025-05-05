@@ -17,8 +17,7 @@ public class PdfInvoiceGenerator : IInvoiceGenerator
     {
         _logger = logger;
     }
-
-
+    
     public async Task<string?> GenerateInvoiceAsync(CreateInvoiceRequest request)
     {
         if (!Directory.Exists(_savePath))

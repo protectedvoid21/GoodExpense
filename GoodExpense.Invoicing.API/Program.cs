@@ -22,6 +22,8 @@ builder.Services
     .AddScoped<GenerateRangeInvoiceHandler>()
     .AddScoped<GenerateInvoiceEventHandler>();
 
+builder.Services.Configure<EventBusConfiguration>(builder.Configuration.GetSection("EventBus"));
+
 var app = builder.Build();
 
 var eventBus = app.Services.GetRequiredService<IEventBus>();
